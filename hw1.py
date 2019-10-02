@@ -33,7 +33,7 @@ def protein(sequence, orf, start, stop):
         orf.append(amino[codon])
 
 def dna_to_protein(sequence):
-
+    
     # One amino acid sequence for each ORF
     orf1 = []
     orf2 = []
