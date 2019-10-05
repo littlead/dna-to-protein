@@ -89,12 +89,12 @@ with open('pa1.fasta', 'r') as file:
     for line in lines:
         if line.startswith('>'):
             if sequence:
-                print(line)
                 seq = ''.join(sequence)
                 frames = dna_to_protein(seq)
                 clevage_sites(frames)
                 sequence = []
                 seq = ''
+                print(line)
             else:
                 print(line)
         else:
