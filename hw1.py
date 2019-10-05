@@ -60,21 +60,32 @@ def dna_to_protein(sequence):
     frame2 = ''.join(rf2)
     frame3 = ''.join(rf3)
 
-    print(frame1, frame2, frame3)
-
     return frame1, frame2, frame3
 
+def double_basic(frame):
+
+    loc = 0
+
+    for a_acid in range(0, len(frame)):
+        loc += 1
+        site = frame[a_acid:a_acid+2]
+        if site == 'KK' or site == 'KR' or site == 'RK' or site == 'RR':
+            print("Double Basic site {} found at point: {}".format(site, loc))
 
 def clevage_sites(frames):
     f1, f2, f3 = frames
 
-    loc = 0
+    print("First reading frame:")
+    print(f1)
+    double_basic(f1)
 
-    for a_acid in range(0, len(f1)):
-        loc += 1
-        site = f1[a_acid:a_acid+2]
-        if site == 'KK' or site == 'KR' or site == 'RK' or site == 'RR':
-            print("Double Basic site {} found at point: {}".format(site, loc))
+    print("Second reading frame:")
+    print(f2)
+    double_basic(f2)
+
+    print("Third reading frame:")
+    print(f3)
+    double_basic(f3)
 
 sequence = []
 seq = ''
