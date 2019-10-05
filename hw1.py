@@ -1,18 +1,5 @@
 import re
 
-file = open('pa1.fasta', 'r')
-data = file.read()
-split_lines = data.splitlines()
-sequence = ""
-for line in split_lines:
-    if line.startswith('>'):
-        pass
-    else:
-        sequence = sequence + line
-
-file.close()
-
-
 amino = {
     'GCT': 'A', 'GCC': 'A', 'GCA': 'A', 'GCG': 'A',
     'GGT': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G',
@@ -34,35 +21,81 @@ amino = {
     'ATG': 'M',
     'AAT': 'N', 'AAC': 'N',
     'CAA': 'Q', 'CAG': 'Q',
-    'ATG': 'Start',
-    'TAA': 'Stop', 'TGA': 'Stop', 'TAG': 'Stop',
+
+    #Start codon
+    'ATG': '?',
+
+    # Stop codon
+    'TAA': '!', 'TGA': '!', 'TAG': '!',
 }
 
 # General function used to tranlate each ORF
-def protein(sequence, orf, start, stop):
+def protein(sequence, rf, start, stop):
     for base in range(start, stop, 3):
         codon = sequence[base:base+3]
-        orf.append(amino[codon])
+        rf.append(amino[codon])
 
 def dna_to_protein(sequence):
-
+    seq = ''.join(sequence)
     # One amino acid sequence for each ORF
-    orf1 = []
-    orf2 = []
-    orf3 = []
+    rf1 = []
+    rf2 = []
+    rf3 = []
+    if len(seq) % 3 == 0:
+        protein(seq, rf1, 0, len(sequence))
+        protein(seq, rf2, 1, len(sequence)-2)
+        protein(seq, rf3, 2, len(sequence)-1)
+    elif len(seq) % 3 == 1:
+        protein(seq, rf1, 0, len(sequence)-1)
+        protein(seq, rf2, 1, len(sequence))
+        protein(seq, rf3, 2, len(sequence)-2)
+    elif len(seq) %3 == 2:
+        protein(seq, rf1, 0, len(sequence)-2)
+        protein(seq, rf2, 1, len(sequence)-1)
+        protein(seq, rf3, 2, len(sequence))
+    else:
+        print("Something weird is happening")
 
-    protein(sequence, orf1, 0, len(sequence)-2)
-    protein(sequence, orf2, 1, len(sequence)-1)
-    protein(sequence, orf3, 2, len(sequence))
+    frame1 = ''.join(rf1)
+    frame2 = ''.join(rf2)
+    frame3 = ''.join(rf3)
 
-    # Print to console for testing
-    protein1 = ''.join(orf1)
-    protein2 = ''.join(orf2)
-    protein3 = ''.join(orf3)
+    print(frame1, frame2, frame3)
 
-    print(protein1, protein2, protein3)
+    return frame1, frame2, frame3
 
-    return protein1, protein2, protein3
 
-# Call Function
-dna_to_protein(sequence)
+def clevage_sites(frames):
+    f1, f2, f3 = frames
+
+    loc = 0
+
+    for a_acid in range(0, len(f1)):
+        loc += 1
+        site = f1[a_acid:a_acid+2]
+        if site == 'KK' or site == 'KR' or site == 'RK' or site == 'RR':
+            print("Double Basic site {} found at point: {}".format(site, loc))
+
+sequence = []
+seq = ''
+
+with open('pa1.fasta', 'r') as file:
+
+    lines = []
+
+    for line in file:
+        lines.append(line.rstrip())
+
+    for line in lines:
+        if line.startswith('>'):
+            if sequence:
+                print(line)
+                seq = ''.join(sequence)
+                frames = dna_to_protein(seq)
+                clevage_sites(frames)
+                sequence = []
+                seq = ''
+            else:
+                print(line)
+        else:
+            sequence.append(line.rstrip())
