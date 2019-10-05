@@ -70,22 +70,24 @@ def double_basic(frame):
         loc += 1
         site = frame[a_acid:a_acid+2]
         if site == 'KK' or site == 'KR' or site == 'RK' or site == 'RR':
-            print("Double Basic site {} found at point: {}".format(site, loc))
+            output_file.write("Double Basic site {} found at point: {} \n".format(site, loc))
 
 def clevage_sites(frames):
     f1, f2, f3 = frames
 
-    print("First reading frame:")
-    print(f1)
+    output_file.write("First reading frame:" + '\n')
+    output_file.write(f1 + '\n')
     double_basic(f1)
 
-    print("Second reading frame:")
-    print(f2)
+    output_file.write("Second reading frame:" + '\n')
+    output_file.write(f2 + '\n')
     double_basic(f2)
 
-    print("Third reading frame:")
-    print(f3)
+    output_file.write("Third reading frame:" + '\n')
+    output_file.write(f3 + '\n')
     double_basic(f3)
+
+output_file = open('translation_adam_little.fasta', 'w')
 
 sequence = []
 seq = ''
@@ -105,8 +107,8 @@ with open('pa1.fasta', 'r') as file:
                 clevage_sites(frames)
                 sequence = []
                 seq = ''
-                print(line)
+                output_file.write(line + '\n')
             else:
-                print(line)
+                output_file.write(line + '\n')
         else:
             sequence.append(line.rstrip())

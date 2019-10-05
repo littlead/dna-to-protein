@@ -1,52 +1,108 @@
-# Python pseudocode
+Pseudocode for DNA to Protein Translation
 
-1. Reads in a FASTA file of nucleotide (DNA) sequences
+amino = {
+  Amino acid dictionary with codon for keys and amino acid for value.
+  Start codons will be denoted with '?'
+  Stop codons denoted with '!'
+}
 
-sequence <- read in FASATA file
-take out first like that starts with ^ in "file"
+General function that converts codon to protein:
 
-2. Carry out the translation to a protein sequence in all possible frames
-amino <- dictionary translating codons to corresponding proteins
+def protein(parameters include DNA sequence and a reading frame):
 
-# Function that converts codon to protein
-def translate(base, orf):
-  for base in range(0, len(sequence), 3):
+  for base in range with increments of 3:
       codon = sequence[base:base+3]
-      orf.append(amino[codon])
-  return orf
+      orf.append(amino acid from dictionary using codon)
 
-# Create lists for each open reading frame
+Function that converts DNA to protein for every reading frame:
 
-ofr1 <- list []
-orf2 <- list []
-orf3 <- list []
+def dna_to_protein(sequence):
 
-def dna_to_protein(file):
-    # First ORF
-    for base in 0:len(file):
-        translate(base, orf1)
+  seq = converting sequence from list to a string
 
-    # Second ORF
-    for base in 1:-2:
-        translate(base, orf2)
+  rf1 = list for first reading frame
+  rf2 = list for second reading frame
+  rf3 = list for third r
+                (This prints the first line in the document as the eading frame
 
-    # Third ORF
-    for base in 2:-1:
-        translate(base, orf3)
+  if the length of seq has a remainder of 0 when divided by 3:
+    We can call the protein function 3 times, once for each reading frame.
+    First frame: start at index 0, end at end of sequence
+    Second frame: start at 1, end 2 bases short of sequence to prevent a 2 base overhang
+    Third frame: start at 2, end at 1 short of end of sequence
+
+  elif the length of seq has a remainder of 1 when divided by 3:
+    We can call the protein function 3 times, once for each reading frame.
+    First frame: start at index 0, end at 1 before end of sequence
+    Second frame: start at 1, end at end of sequence
+    Third frame: start at 2, end at 2 short of end of sequence
+
+  elif the length of seq has a remainder of 2 when divided by 3:
+    We can call the protein function 3 times, once for each reading frame.
+    First frame: start at index 0, end at 2 short of end of sequence
+    Second frame: start at 1, end at 1 short of end of sequence
+    Third frame: start at 2, end at end of sequence
+
+  else:
+    Throw an error.
+
+    Convert reading all reading frame protein lists to strings.
+
+    return all three reading frame protein strings
+
+# General function for finding double basic putative sites
+
+def double_basic(takes in reading frame):
+
+    location <- 0
+
+    for amino acid in range from 0 to length of frame:
+      location += 1
+      site = frame[amino acid at this location and the on to the right of it ]
+      if site == KK or KR or RK or RR:
+          Output amino acid pair and location to fasta file
+
+# Function to identify clevage sites in every reading frame
+
+def clevage_sites(frames):
+    unpacks frames and puts them into 3 variables, f1, f2 and f3
+
+    Outputs first reading frame to protein sequence to output_file
+    call double_basic with first reading frame as argument
+        (note: this outputs the identified double basic sites and locations)
+
+    Outputs second reading frame to protein sequence to output_file
+    call double_basic with second reading frame as argument
+
+    Outputs third reading frame to protein sequence to output_file
+    call double_basic with third reading frame as argument
 
 
-# Finding double basic putative sites
+# output file
+
+Create an output file
 
 
-3. Finds  putative cleavage sites which are “double basic" (e.g., KK, KR, RK, RR) in the protein sequence
+sequence = sequence list
+seq = empty string
 
-def double_basic(location):
-    site <- 0
-    for protein in location:
-      site += 1
-      if (protein:protein+1) == KK or KR or RK or RR:
-          print("Putative cleavage site at site number {}".format(str(site))
+file = open fasta file
 
+lines = list for every line in document
 
-4. Outputs the resulting protein sequences and the possible locations in a FASTA file that carries the description field from the nucleotide entry.
-The locations of the cleavage sites should be described in the description field
+for line in file:
+    append line to lines list
+        if line starts with '>' (note: this is the description)
+            if the sequence list is not empty:
+                seq = join the sequence list to a string
+                frames = call dna_to_protein sequence
+                call cleage_sites function with frames variable
+                sequence = [] (clears the list for the next sequence)
+                seq = '' (clears the string for the next sequence)
+                output the description line for the next sequence
+            else:
+                output the current line
+                (This prints the first line in the document as the sequence list is empty)
+
+         else:
+            append the line to the sequence (This builds up the sequence list)
