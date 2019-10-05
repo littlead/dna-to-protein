@@ -81,4 +81,6 @@ def clevage_sites(frames):
 
 Create an output file
 
+Input fasta file
+
 Write output file by placing sequence info first, followed by translated sequence, followed by descriptions of double basic site locations.

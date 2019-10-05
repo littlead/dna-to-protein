@@ -90,31 +90,6 @@ def clevage_sites(frames):
 
 output_file = open('translation_adam_little.fasta', 'w')
 
-# sequence = []
-# seq = ''
-#
-# with open('pa1.fasta', 'r') as file:
-#
-#     lines = []
-#
-#     for line in file:
-#         lines.append(line.rstrip())
-#
-#     for line in lines:
-#         if line.startswith('>'):
-#             title = line
-#             if sequence:
-#                 seq = ''.join(sequence)
-#                 frames = dna_to_protein(seq)
-#                 clevage_sites(frames)
-#                 sequence = []
-#                 seq = ''
-#                 output_file.write(title + '\n')
-#             else:
-#                 output_file.write(line + '\n')
-#         else:
-#             sequence.append(line.rstrip())
-
 with open('pa1.fasta') as file:
     line = (x[1] for x in groupby(file, lambda l: l[0] == '>'))
     for header in line:
