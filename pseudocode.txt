@@ -12,7 +12,7 @@ def protein(parameters include DNA sequence and a reading frame):
 
   for base in range with increments of 3:
       codon = sequence[base:base+3]
-      orf.append(amino acid from dictionary using codon)
+      "reading frame".append(amino acid from dictionary using codon)
 
 Function that converts DNA to protein for every reading frame:
 
@@ -22,8 +22,7 @@ def dna_to_protein(sequence):
 
   rf1 = list for first reading frame
   rf2 = list for second reading frame
-  rf3 = list for third r
-                (This prints the first line in the document as the eading frame
+  rf3 = list for third reading frame
 
   if the length of seq has a remainder of 0 when divided by 3:
     We can call the protein function 3 times, once for each reading frame.
@@ -32,13 +31,13 @@ def dna_to_protein(sequence):
     Third frame: start at 2, end at 1 short of end of sequence
 
   elif the length of seq has a remainder of 1 when divided by 3:
-    We can call the protein function 3 times, once for each reading frame.
+
     First frame: start at index 0, end at 1 before end of sequence
     Second frame: start at 1, end at end of sequence
     Third frame: start at 2, end at 2 short of end of sequence
 
   elif the length of seq has a remainder of 2 when divided by 3:
-    We can call the protein function 3 times, once for each reading frame.
+
     First frame: start at index 0, end at 2 short of end of sequence
     Second frame: start at 1, end at 1 short of end of sequence
     Third frame: start at 2, end at end of sequence
@@ -46,19 +45,19 @@ def dna_to_protein(sequence):
   else:
     Throw an error.
 
-    Convert reading all reading frame protein lists to strings.
+  Convert all reading frame protein lists to strings.
 
-    return all three reading frame protein strings
+  return all three reading frame protein strings
 
 # General function for finding double basic putative sites
 
 def double_basic(takes in reading frame):
 
-    location <- 0
+    location <- -1
 
     for amino acid in range from 0 to length of frame:
       location += 1
-      site = frame[amino acid at this location and the on to the right of it ]
+      site = frame[amino acid at this location and the one to the right of it ]
       if site == KK or KR or RK or RR:
           Output amino acid pair and location to fasta file
 
@@ -82,27 +81,4 @@ def clevage_sites(frames):
 
 Create an output file
 
-
-sequence = sequence list
-seq = empty string
-
-file = open fasta file
-
-lines = list for every line in document
-
-for line in file:
-    append line to lines list
-        if line starts with '>' (note: this is the description)
-            if the sequence list is not empty:
-                seq = join the sequence list to a string
-                frames = call dna_to_protein sequence
-                call cleage_sites function with frames variable
-                sequence = [] (clears the list for the next sequence)
-                seq = '' (clears the string for the next sequence)
-                output the description line for the next sequence
-            else:
-                output the current line
-                (This prints the first line in the document as the sequence list is empty)
-
-         else:
-            append the line to the sequence (This builds up the sequence list)
+Write output file by placing sequence info first, followed by translated sequence, followed by descriptions of double basic site locations.

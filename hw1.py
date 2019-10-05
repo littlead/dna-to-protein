@@ -1,4 +1,5 @@
 import re
+from itertools import groupby
 
 amino = {
     'GCT': 'A', 'GCC': 'A', 'GCA': 'A', 'GCG': 'A',
@@ -64,13 +65,13 @@ def dna_to_protein(sequence):
 
 def double_basic(frame):
 
-    loc = 0
+    loc = -1
 
     for a_acid in range(0, len(frame)):
         loc += 1
         site = frame[a_acid:a_acid+2]
         if site == 'KK' or site == 'KR' or site == 'RK' or site == 'RR':
-            output_file.write("Double Basic site {} found at point: {} \n".format(site, loc))
+            output_file.write("Double Basic site {} found at index: {}:{} \n".format(site, loc, loc+2))
 
 def clevage_sites(frames):
     f1, f2, f3 = frames
@@ -89,26 +90,35 @@ def clevage_sites(frames):
 
 output_file = open('translation_adam_little.fasta', 'w')
 
-sequence = []
-seq = ''
+# sequence = []
+# seq = ''
+#
+# with open('pa1.fasta', 'r') as file:
+#
+#     lines = []
+#
+#     for line in file:
+#         lines.append(line.rstrip())
+#
+#     for line in lines:
+#         if line.startswith('>'):
+#             title = line
+#             if sequence:
+#                 seq = ''.join(sequence)
+#                 frames = dna_to_protein(seq)
+#                 clevage_sites(frames)
+#                 sequence = []
+#                 seq = ''
+#                 output_file.write(title + '\n')
+#             else:
+#                 output_file.write(line + '\n')
+#         else:
+#             sequence.append(line.rstrip())
 
-with open('pa1.fasta', 'r') as file:
-
-    lines = []
-
-    for line in file:
-        lines.append(line.rstrip())
-
-    for line in lines:
-        if line.startswith('>'):
-            if sequence:
-                seq = ''.join(sequence)
-                frames = dna_to_protein(seq)
-                clevage_sites(frames)
-                sequence = []
-                seq = ''
-                output_file.write(line + '\n')
-            else:
-                output_file.write(line + '\n')
-        else:
-            sequence.append(line.rstrip())
+with open('pa1.fasta') as file:
+    line = (x[1] for x in groupby(file, lambda l: l[0] == '>'))
+    for header in line:
+        header = next(header).strip()
+        seq = ''.join(s.strip() for s in next(line))
+        output_file.write(header + '\n')
+        clevage_sites(dna_to_protein(seq))
